@@ -13,8 +13,8 @@ import useStats from '@/shared/hooks/useStats';
 import useStatsStore from '@/features/Progress/store/useStatsStore';
 import Stars from '@/shared/components/Game/Stars';
 import AnswerSummary from '@/shared/components/Game/AnswerSummary';
-import SSRAudioButton from '@/shared/components/SSRAudioButton';
-import FuriganaText from '@/shared/components/FuriganaText';
+import SSRAudioButton from '@/shared/components/audio/SSRAudioButton';
+import FuriganaText from '@/shared/components/text/FuriganaText';
 import { useCrazyModeTrigger } from '@/features/CrazyMode/hooks/useCrazyModeTrigger';
 import { getGlobalAdaptiveSelector } from '@/shared/lib/adaptiveSelection';
 import { useSmartReverseMode } from '@/shared/hooks/useSmartReverseMode';
@@ -154,16 +154,16 @@ const KanjiPickGame = ({ selectedKanjiObjs, isHidden }: KanjiPickGameProps) => {
       generateNewCharacter();
       setFeedback(
         <>
-          <span className='text-[var(--secondary-color)]'>{`${displayChar} = ${selectedOption} `}</span>
-          <CircleCheck className='inline text-[var(--main-color)]' />
+          <span className="text-[var(--secondary-color)]">{`${displayChar} = ${selectedOption} `}</span>
+          <CircleCheck className="inline text-[var(--main-color)]" />
         </>
       );
     } else {
       handleWrongAnswer(selectedOption);
       setFeedback(
         <>
-          <span className='text-[var(--secondary-color)]'>{`${displayChar} ≠ ${selectedOption} `}</span>
-          <CircleX className='inline text-[var(--main-color)]' />
+          <span className="text-[var(--secondary-color)]">{`${displayChar} ≠ ${selectedOption} `}</span>
+          <CircleX className="inline text-[var(--main-color)]" />
         </>
       );
     }
@@ -240,7 +240,7 @@ const KanjiPickGame = ({ selectedKanjiObjs, isHidden }: KanjiPickGameProps) => {
 
       {!displayAnswerSummary && (
         <>
-          <div className='flex flex-row justify-center items-center gap-1'>
+          <div className="flex flex-row justify-center items-center gap-1">
             <FuriganaText
               text={displayChar ?? ''}
               reading={
@@ -254,9 +254,9 @@ const KanjiPickGame = ({ selectedKanjiObjs, isHidden }: KanjiPickGameProps) => {
             {!isReverse && (
               <SSRAudioButton
                 text={correctChar}
-                variant='icon-only'
-                size='sm'
-                className='bg-[var(--card-color)] text-[var(--secondary-color)]'
+                variant="icon-only"
+                size="sm"
+                className="bg-[var(--card-color)] text-[var(--secondary-color)]"
               />
             )}
           </div>
@@ -273,7 +273,7 @@ const KanjiPickGame = ({ selectedKanjiObjs, isHidden }: KanjiPickGameProps) => {
                   buttonRefs.current[i] = elem;
                 }}
                 key={option + i}
-                type='button'
+                type="button"
                 disabled={wrongSelectedAnswers.includes(option)}
                 className={clsx(
                   isReverse

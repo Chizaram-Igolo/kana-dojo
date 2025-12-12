@@ -1,5 +1,5 @@
 'use client';
-import PostWrapper from '@/shared/components/PostWrapper';
+import PostWrapper from '@/shared/components/layout/PostWrapper';
 import hiragana101 from '@/features/Academy/data/hiraganaBlogPost';
 
 const Hiragana101 = () => {

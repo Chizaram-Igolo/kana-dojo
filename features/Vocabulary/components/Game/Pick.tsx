@@ -13,8 +13,8 @@ import useStats from '@/shared/hooks/useStats';
 import useStatsStore from '@/features/Progress/store/useStatsStore';
 import Stars from '@/shared/components/Game/Stars';
 import AnswerSummary from '@/shared/components/Game/AnswerSummary';
-import SSRAudioButton from '@/shared/components/SSRAudioButton';
-import FuriganaText from '@/shared/components/FuriganaText';
+import SSRAudioButton from '@/shared/components/audio/SSRAudioButton';
+import FuriganaText from '@/shared/components/text/FuriganaText';
 import { useCrazyModeTrigger } from '@/features/CrazyMode/hooks/useCrazyModeTrigger';
 import { getGlobalAdaptiveSelector } from '@/shared/lib/adaptiveSelection';
 import { useSmartReverseMode } from '@/shared/hooks/useSmartReverseMode';
@@ -163,8 +163,8 @@ const VocabPickGame = ({ selectedWordObjs, isHidden }: VocabPickGameProps) => {
       generateNewCharacter();
       setFeedback(
         <>
-          <span className='text-[var(--secondary-color)]'>{`${displayChar} = ${selectedOption} `}</span>
-          <CircleCheck className='inline text-[var(--main-color)]' />
+          <span className="text-[var(--secondary-color)]">{`${displayChar} = ${selectedOption} `}</span>
+          <CircleCheck className="inline text-[var(--main-color)]" />
         </>
       );
       setCurrentWordObj(correctWordObj as IVocabObj);
@@ -172,8 +172,8 @@ const VocabPickGame = ({ selectedWordObjs, isHidden }: VocabPickGameProps) => {
       handleWrongAnswer(selectedOption);
       setFeedback(
         <>
-          <span className='text-[var(--secondary-color)]'>{`${displayChar} ≠ ${selectedOption} `}</span>
-          <CircleX className='inline text-[var(--main-color)]' />
+          <span className="text-[var(--secondary-color)]">{`${displayChar} ≠ ${selectedOption} `}</span>
+          <CircleX className="inline text-[var(--main-color)]" />
         </>
       );
     }
@@ -265,16 +265,16 @@ const VocabPickGame = ({ selectedWordObjs, isHidden }: VocabPickGameProps) => {
 
       {!displayAnswerSummary && (
         <>
-          <div className='flex flex-col items-center gap-4'>
+          <div className="flex flex-col items-center gap-4">
             {/* Show prompt based on quiz type */}
-            <span className='text-sm text-[var(--secondary-color)] mb-2'>
+            <span className="text-sm text-[var(--secondary-color)] mb-2">
               {quizType === 'meaning'
                 ? isReverse
                   ? 'What is the word?' // reverse: given meaning, find word
                   : 'What is the meaning?' // normal: given word, find meaning
                 : 'What is the reading?'}
             </span>
-            <div className='flex flex-row justify-center items-center gap-1'>
+            <div className="flex flex-row justify-center items-center gap-1">
               <FuriganaText
                 text={displayChar ?? ''}
                 reading={
@@ -288,9 +288,9 @@ const VocabPickGame = ({ selectedWordObjs, isHidden }: VocabPickGameProps) => {
               {!isReverse && (
                 <SSRAudioButton
                   text={correctChar}
-                  variant='icon-only'
-                  size='sm'
-                  className='bg-[var(--card-color)] text-[var(--secondary-color)]'
+                  variant="icon-only"
+                  size="sm"
+                  className="bg-[var(--card-color)] text-[var(--secondary-color)]"
                 />
               )}
             </div>
@@ -308,7 +308,7 @@ const VocabPickGame = ({ selectedWordObjs, isHidden }: VocabPickGameProps) => {
                   buttonRefs.current[i] = elem;
                 }}
                 key={option + i}
-                type='button'
+                type="button"
                 disabled={wrongSelectedAnswers.includes(option)}
                 className={clsx(
                   'py-5 pl-8 rounded-xl w-full md:w-1/2 flex flex-row justify-start items-center gap-1.5',
@@ -327,7 +327,7 @@ const VocabPickGame = ({ selectedWordObjs, isHidden }: VocabPickGameProps) => {
                 lang={optionLang}
               >
                 {/* Only use FuriganaText when we need furigana (reverse mode or meaning quiz) */}
-                <span className='flex-1 text-left'>
+                <span className="flex-1 text-left">
                   {isReverse || quizType === 'meaning' ? (
                     <FuriganaText
                       text={option}

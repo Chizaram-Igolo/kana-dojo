@@ -18,11 +18,11 @@ export function LanguageSelector() {
   return (
     <select
       value={currentLocale}
-      onChange={(e) => changeLocale(e.target.value as Locale)}
+      onChange={e => changeLocale(e.target.value as Locale)}
       className="px-3 py-2 border rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700"
       aria-label="Select language"
     >
-      {routing.locales.map((locale) => (
+      {routing.locales.map(locale => (
         <option key={locale} value={locale}>
           {localeNames[locale]}
         </option>

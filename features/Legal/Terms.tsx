@@ -1,5 +1,5 @@
-import ContentLayout from '@/shared/components/ContentLayout';
-import PostWrapper from '@/shared/components/PostWrapper';
+import ContentLayout from '@/shared/components/layout/ContentLayout';
+import PostWrapper from '@/shared/components/layout/PostWrapper';
 import termsOfService from '@/shared/lib/legal/termsOfService';
 
 const TermsOfService = () => {

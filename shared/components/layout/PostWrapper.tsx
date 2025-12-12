@@ -6,7 +6,7 @@ import remarkGfm from 'remark-gfm';
 const PostWrapper = ({
   textContent,
   tag,
-  date,
+  date
 }: {
   textContent: string;
   tag?: string;
@@ -21,7 +21,7 @@ const PostWrapper = ({
             {new Date(date).toLocaleDateString('en-GB', {
               day: '2-digit',
               month: 'short',
-              year: 'numeric',
+              year: 'numeric'
             })}
           </span>
         </div>
@@ -29,35 +29,35 @@ const PostWrapper = ({
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
-          h1: (props) => (
+          h1: props => (
             <h1 className="text-3xl font-bold mt-4 pb-3" {...props} />
           ),
-          h2: (props) => (
+          h2: props => (
             <h2 className="text-2xl font-semibold mt-4 pb-2" {...props} />
           ),
-          h3: (props) => (
+          h3: props => (
             <h3 className="text-xl font-medium mt-4 pb-2" {...props} />
           ),
-          p: (props) => (
+          p: props => (
             <p
               className="my-1  leading-relaxed text-[var(--secondary-color)]"
               {...props}
             />
           ),
-          ul: (props) => (
+          ul: props => (
             <ul
               className="list-disc list-inside pb-2 text-[var(--secondary-color)]"
               {...props}
             />
           ),
-          ol: (props) => (
+          ol: props => (
             <ol
               className="list-decimal list-inside pb-4 text-[var(--secondary-color)]"
               {...props}
             />
           ),
-          li: (props) => <li className="mb-1" {...props} />,
-          a: (props) => (
+          li: props => <li className="mb-1" {...props} />,
+          a: props => (
             <a
               target="_blank"
               className="underline text-[var(--main-color)]"
@@ -65,27 +65,27 @@ const PostWrapper = ({
             />
           ),
 
-          table: (props) => (
+          table: props => (
             <table
               className="border-collapse border border-[var(--border-color)] w-full"
               {...props}
             />
           ),
-          th: (props) => (
+          th: props => (
             <th
               className="border border-[var(--border-color)] px-2 py-1"
               {...props}
             />
           ),
-          td: (props) => (
+          td: props => (
             <td
               className="border border-[var(--border-color)] px-2 py-1"
               {...props}
             />
           ),
-          hr: (props) => (
+          hr: props => (
             <hr className="border-[var(--border-color)]" {...props} />
-          ),
+          )
         }}
       >
         {textContent}

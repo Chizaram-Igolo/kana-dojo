@@ -5,7 +5,7 @@ import { toKana, toRomaji } from 'wanakana';
 import { IWord } from '@/shared/types/interfaces';
 import { cardBorderStyles } from '@/shared/lib/styles';
 import usePreferencesStore from '@/features/Preferences/store/usePreferencesStore';
-import FuriganaText from '@/shared/components/FuriganaText';
+import FuriganaText from '@/shared/components/text/FuriganaText';
 import { memo } from 'react';
 
 type SetDictionaryProps = {
@@ -40,18 +40,18 @@ const SetDictionary = memo(function SetDictionary({
               href={`https://jisho.org/search/${encodeURIComponent(
                 wordObj.word
               )}`}
-              target='_blank'
-              rel='noopener'
-              className='cursor-pointer  transition-opacity'
+              target="_blank"
+              rel="noopener"
+              className="cursor-pointer  transition-opacity"
             >
               <FuriganaText
                 text={wordObj.word}
                 reading={wordObj.reading}
-                className='text-6xl md:text-5xl'
-                lang='ja'
+                className="text-6xl md:text-5xl"
+                lang="ja"
               />
             </a>
-            <div className='flex flex-col gap-2 items-start'>
+            <div className="flex flex-col gap-2 items-start">
               <span
                 className={clsx(
                   'rounded-xl px-2 py-1 flex flex-row items-center',
@@ -62,7 +62,7 @@ const SetDictionary = memo(function SetDictionary({
                 {/* {toRomaji(rawReading) + ' ' + rawReading} */}
                 {displayReading}
               </span>
-              <p className='text-xl md:text-2xl text-[var(--secondary-color)]'>
+              <p className="text-xl md:text-2xl text-[var(--secondary-color)]">
                 {wordObj.displayMeanings.join(', ')}
               </p>
             </div>

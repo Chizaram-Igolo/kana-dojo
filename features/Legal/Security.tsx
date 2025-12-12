@@ -1,6 +1,6 @@
-import PostWrapper from '@/shared/components/PostWrapper';
+import PostWrapper from '@/shared/components/layout/PostWrapper';
 import securityPolicy from '@/shared/lib/legal/securityPolicy';
-import ContentLayout from '@/shared/components/ContentLayout';
+import ContentLayout from '@/shared/components/layout/ContentLayout';
 
 const SecurityPolicy = () => {
   return (

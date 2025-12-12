@@ -1,5 +1,5 @@
-import ContentLayout from '@/shared/components/ContentLayout';
-import PostWrapper from '@/shared/components/PostWrapper';
+import ContentLayout from '@/shared/components/layout/ContentLayout';
+import PostWrapper from '@/shared/components/layout/PostWrapper';
 import { patchNotesData } from './patchNotesData';
 
 export interface Release {
@@ -28,7 +28,7 @@ const PatchNotes = async () => {
   if (!patches || patches.length === 0) {
     return (
       <ContentLayout>
-        <div className='space-y-6'>
+        <div className="space-y-6">
           {patchNotesData.map((patch, index) => (
             <PostWrapper
               key={index}

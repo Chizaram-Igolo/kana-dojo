@@ -2,13 +2,13 @@
 
 import React from 'react';
 import useVocabStore, {
-  type IVocabObj,
+  type IVocabObj
 } from '@/features/Vocabulary/store/useVocabStore';
 import useStatsStore from '@/features/Progress/store/useStatsStore';
 import TimedChallenge, {
-  type TimedChallengeConfig,
+  type TimedChallengeConfig
 } from '@/shared/components/TimedChallenge';
-import FuriganaText from '@/shared/components/FuriganaText';
+import FuriganaText from '@/shared/components/text/FuriganaText';
 
 export default function TimedChallengeVocab() {
   const selectedVocabObjs = useVocabStore(state => state.selectedVocabObjs);
@@ -24,7 +24,7 @@ export default function TimedChallengeVocab() {
     timedVocabBestStreak,
     incrementTimedVocabCorrectAnswers,
     incrementTimedVocabWrongAnswers,
-    resetTimedVocabStats,
+    resetTimedVocabStats
   } = useStatsStore();
 
   const config: TimedChallengeConfig<IVocabObj> = {
@@ -42,10 +42,7 @@ export default function TimedChallengeVocab() {
       isReverse ? (
         question.meanings[0]
       ) : (
-        <FuriganaText
-          text={question.word}
-          reading={question.reading}
-        />
+        <FuriganaText text={question.word} reading={question.reading} />
       ),
     inputPlaceholder: 'Type the meaning...',
     modeDescription: 'Mode: Type (See Japanese word → Type meaning)',
@@ -92,8 +89,8 @@ export default function TimedChallengeVocab() {
       bestStreak: timedVocabBestStreak,
       incrementCorrect: incrementTimedVocabCorrectAnswers,
       incrementWrong: incrementTimedVocabWrongAnswers,
-      reset: resetTimedVocabStats,
-    },
+      reset: resetTimedVocabStats
+    }
   };
 
   return <TimedChallenge config={config} />;

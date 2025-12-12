@@ -1,5 +1,5 @@
-import PostWrapper from '@/shared/components/PostWrapper';
-import ContentLayout from '@/shared/components/ContentLayout';
+import PostWrapper from '@/shared/components/layout/PostWrapper';
+import ContentLayout from '@/shared/components/layout/ContentLayout';
 import ContributorsGrid from '@/features/Legal/credits/ContributorsGrid';
 import SponsorsGrid from '@/features/Legal/credits/SponsorsGrid';
 import { KO_FI_SUPPORTERS } from '@/features/Legal/credits/sponsorsData';
@@ -24,11 +24,11 @@ const fetchContributors = async (): Promise<Contributor[]> => {
 
     const data: GHContributor[] = await res.json();
     return data
-      .filter((c) => c.type !== 'Bot')
-      .map((c) => ({
+      .filter(c => c.type !== 'Bot')
+      .map(c => ({
         login: c.login,
         avatar: c.avatar_url,
-        url: c.html_url,
+        url: c.html_url
       }));
   } catch (e) {
     console.error('Failed to fetch contributors', e);

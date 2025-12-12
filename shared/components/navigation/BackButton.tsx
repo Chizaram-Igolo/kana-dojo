@@ -10,7 +10,7 @@ const BackButton = () => {
   const { playClick } = useClick();
 
   return (
-    <Link href='/' className='w-full md:w-1/3 lg:w-1/4'>
+    <Link href="/" className="w-full md:w-1/3 lg:w-1/4">
       <button
         onClick={() => playClick()}
         className={clsx(

@@ -93,7 +93,7 @@ const AudioButton: React.FC<AudioButtonProps> = ({
           sizeClasses[size],
           className
         )}
-        title='Try pronunciation (may work in some browsers)'
+        title="Try pronunciation (may work in some browsers)"
       >
         <Volume2 size={iconSizes[size]} />
       </button>
@@ -102,7 +102,7 @@ const AudioButton: React.FC<AudioButtonProps> = ({
 
   const getIcon = () => {
     if (isPlaying) {
-      return <Loader2 size={iconSizes[size]} className='animate-spin' />;
+      return <Loader2 size={iconSizes[size]} className="animate-spin" />;
     }
     return <Volume2 size={iconSizes[size]} />;
   };

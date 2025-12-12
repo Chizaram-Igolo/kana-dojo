@@ -69,12 +69,12 @@ const socialLinks: SocialLink[] = [
 
 const MobileBottomBar = () => {
   const { playClick } = useClick();
-  const theme = usePreferencesStore((state) => state.theme);
-  const font = usePreferencesStore((state) => state.font);
-  const isCrazyMode = useCrazyModeStore((state) => state.isCrazyMode);
-  const activeThemeId = useCrazyModeStore((state) => state.activeThemeId);
+  const theme = usePreferencesStore(state => state.theme);
+  const font = usePreferencesStore(state => state.font);
+  const isCrazyMode = useCrazyModeStore(state => state.isCrazyMode);
+  const activeThemeId = useCrazyModeStore(state => state.activeThemeId);
   const expandDecorations = useDecorationsStore(
-    (state) => state.expandDecorations
+    state => state.expandDecorations
   );
   const effectiveTheme = isCrazyMode && activeThemeId ? activeThemeId : theme;
 

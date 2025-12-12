@@ -12,8 +12,8 @@ import useStats from '@/shared/hooks/useStats';
 import useStatsStore from '@/features/Progress/store/useStatsStore';
 import Stars from '@/shared/components/Game/Stars';
 import AnswerSummary from '@/shared/components/Game/AnswerSummary';
-import SSRAudioButton from '@/shared/components/SSRAudioButton';
-import FuriganaText from '@/shared/components/FuriganaText';
+import SSRAudioButton from '@/shared/components/audio/SSRAudioButton';
+import FuriganaText from '@/shared/components/text/FuriganaText';
 import { useCrazyModeTrigger } from '@/features/CrazyMode/hooks/useCrazyModeTrigger';
 import { getGlobalAdaptiveSelector } from '@/shared/lib/adaptiveSelection';
 
@@ -151,10 +151,10 @@ const KanjiInputGame = ({
     generateNewCharacter();
     setFeedback(
       <>
-        <span className='text-[var(--secondary-color)]'>{`${correctChar} = ${userInput
+        <span className="text-[var(--secondary-color)]">{`${correctChar} = ${userInput
           .trim()
           .toLowerCase()} `}</span>
-        <CircleCheck className='inline text-[var(--main-color)]' />
+        <CircleCheck className="inline text-[var(--main-color)]" />
       </>
     );
     triggerCrazyMode();
@@ -166,11 +166,11 @@ const KanjiInputGame = ({
     setInputValue('');
     setFeedback(
       <>
-        <span className='text-[var(--secondary-color)]'>{`${correctChar} ≠ ${inputValue
+        <span className="text-[var(--secondary-color)]">{`${correctChar} ≠ ${inputValue
           .trim()
           .toLowerCase()} `}</span>
 
-        <CircleX className='inline text-[var(--main-color)]' />
+        <CircleX className="inline text-[var(--main-color)]" />
       </>
     );
     playErrorTwice();
@@ -210,8 +210,8 @@ const KanjiInputGame = ({
     const displayTarget = isReverse
       ? targetChar
       : Array.isArray(targetChar)
-      ? targetChar[0]
-      : targetChar;
+        ? targetChar[0]
+        : targetChar;
 
     setFeedback(<>{`skipped ~ ${correctChar} = ${displayTarget}`}</>);
   };
@@ -240,7 +240,7 @@ const KanjiInputGame = ({
       )}
       {!displayAnswerSummary && (
         <>
-          <div className='flex flex-row items-center gap-1'>
+          <div className="flex flex-row items-center gap-1">
             <FuriganaText
               text={correctChar}
               reading={
@@ -254,16 +254,16 @@ const KanjiInputGame = ({
             {!isReverse && (
               <SSRAudioButton
                 text={correctChar}
-                variant='icon-only'
-                size='sm'
-                className='bg-[var(--card-color)] text-[var(--secondary-color)]'
+                variant="icon-only"
+                size="sm"
+                className="bg-[var(--card-color)] text-[var(--secondary-color)]"
               />
             )}
           </div>
 
           <input
             ref={inputRef}
-            type='text'
+            type="text"
             value={inputValue}
             className={clsx(
               'border-b-2 pb-1 text-center focus:outline-none text-2xl lg:text-5xl text-[var(--secondary-color)]',
