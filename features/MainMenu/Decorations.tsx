@@ -46,6 +46,9 @@ const kanjiSources = ['N5', 'N4', 'N3'] as const;
 
 const shuffle = <T,>(arr: T[]) => arr.slice().sort(() => Math.random() - 0.5);
 
+// Limit character count
+const MAX_KANJI_CHARS = 300;
+
 // Module-level cache for kanji characters - prevents refetching on every mount
 let kanjiCharsCache: string[] | null = null;
 let kanjiLoadingPromise: Promise<string[]> | null = null;
@@ -61,7 +64,8 @@ const loadKanjiChars = async (): Promise<string[]> => {
       return data.map(entry => entry.kanjiChar);
     })
   ).then(results => {
-    kanjiCharsCache = results.flat();
+    const allChars = results.flat();
+    kanjiCharsCache = shuffle(allChars).slice(0, MAX_KANJI_CHARS);
     kanjiLoadingPromise = null;
     return kanjiCharsCache;
   });
@@ -204,7 +208,7 @@ const KanjiCharacter = ({
   return (
     <span
       className={clsx(
-        'text-4xl inline-flex items-center justify-center',
+        'inline-flex items-center justify-center text-4xl',
         styles.fontClass,
         !interactive && styles.animation,
         interactive && animState === 'idle' && 'cursor-pointer'
@@ -245,8 +249,22 @@ const Decorations = ({
     const loadKanji = async () => {
       // Use cached kanji chars to avoid refetching on every mount
       const chars = await loadKanjiChars();
-      if (!isMounted) return;
-      setKanjiList(shuffle(chars));
+
+      const columns = 28;
+      const rows = 10;
+      const totalCells = columns * rows;
+
+      const fillGrid = (chars: string[], totalCells: number) => {
+        const filled: string[] = [];
+        while (filled.length < totalCells) {
+          filled.push(...shuffle(chars));
+        }
+        return filled.slice(0, totalCells);
+      };
+
+      const filledChars = fillGrid(chars, totalCells);
+
+      setKanjiList(filledChars);
     };
 
     void loadKanji();
@@ -292,7 +310,7 @@ const Decorations = ({
       >
         <div
           className={clsx(
-            'grid gap-0.5 p-2 h-full w-full',
+            'grid h-full w-full gap-0.5 p-2',
             interactive ? 'grid-cols-10 md:grid-cols-28' : 'grid-cols-28'
           )}
         >
