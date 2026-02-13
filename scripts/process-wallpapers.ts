@@ -48,6 +48,8 @@ interface ProcessResult {
   error?: string;
 }
 
+const MANIFEST_WIDTH_PREFERENCE = [2560, 1920, 3840] as const;
+
 async function getSourceImages(): Promise<string[]> {
   try {
     const entries = await readdir(SOURCE_DIR);
@@ -194,19 +196,72 @@ async function processImage(filename: string): Promise<ProcessResult> {
 }
 
 /**
+ * Inspect generated outputs and return available widths for each wallpaper base name.
+ * Width is considered available if at least one optimized format exists.
+ */
+async function getAvailableWidthsByBaseName(): Promise<Map<string, Set<number>>> {
+  const map = new Map<string, Set<number>>();
+
+  try {
+    const outputFiles = await readdir(OUTPUT_DIR);
+    for (const file of outputFiles) {
+      const match = file.match(/^(.+)-(\d+)w\.(avif|webp)$/);
+      if (!match) continue;
+
+      const baseName = match[1];
+      const width = Number(match[2]);
+      if (!Number.isFinite(width)) continue;
+
+      let widths = map.get(baseName);
+      if (!widths) {
+        widths = new Set<number>();
+        map.set(baseName, widths);
+      }
+      widths.add(width);
+    }
+  } catch {
+    // Output dir might not exist yet; caller handles empty map.
+  }
+
+  return map;
+}
+
+function selectManifestWidth(
+  baseName: string,
+  availableWidths: Map<string, Set<number>>,
+): number {
+  const widths = availableWidths.get(baseName);
+  if (!widths || widths.size === 0) {
+    // Keep legacy default when nothing is available.
+    return 2560;
+  }
+
+  for (const preferred of MANIFEST_WIDTH_PREFERENCE) {
+    if (widths.has(preferred)) return preferred;
+  }
+
+  // Defensive fallback: pick the largest available width.
+  return Math.max(...widths);
+}
+
+/**
  * Generate the TypeScript manifest file that the app imports.
  * This is the single source of truth for which wallpapers exist.
  */
-function generateManifest(results: ProcessResult[]): string {
+function generateManifest(
+  results: ProcessResult[],
+  availableWidths: Map<string, Set<number>>,
+): string {
   const successful = results.filter(r => !r.error);
 
   const entries = successful
     .map(r => {
+      const selectedWidth = selectManifestWidth(r.baseName, availableWidths);
       return `  {
     id: '${r.baseName}',
     name: '${r.displayName}',
-    url: '/wallpapers/${r.baseName}-2560w.avif',
-    urlWebp: '/wallpapers/${r.baseName}-2560w.webp',
+    url: '/wallpapers/${r.baseName}-${selectedWidth}w.avif',
+    urlWebp: '/wallpapers/${r.baseName}-${selectedWidth}w.webp',
   },`;
     })
     .join('\n');
@@ -290,7 +345,7 @@ async function main() {
     console.log(`\n⚠️  No source images found in ${SOURCE_DIR}`);
     console.log('   Add images and run this script again.');
     // Still generate an empty manifest so the app compiles
-    const emptyManifest = generateManifest([]);
+    const emptyManifest = generateManifest([], new Map());
     await writeFile(MANIFEST_PATH, emptyManifest, 'utf-8');
     console.log(`\n📝 Generated empty manifest: ${MANIFEST_PATH}`);
     return;
@@ -368,8 +423,10 @@ async function main() {
   // Sort results by baseName for deterministic manifest output
   results.sort((a, b) => a.baseName.localeCompare(b.baseName));
 
+  const availableWidths = await getAvailableWidthsByBaseName();
+
   // Generate manifest (always — includes all wallpapers)
-  const manifest = generateManifest(results);
+  const manifest = generateManifest(results, availableWidths);
   await writeFile(MANIFEST_PATH, manifest, 'utf-8');
 
   // Print summary
