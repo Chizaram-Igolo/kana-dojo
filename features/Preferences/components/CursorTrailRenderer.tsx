@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import usePreferencesStore from '@/features/Preferences/store/usePreferencesStore';
 import { CURSOR_TRAIL_EFFECTS } from '@/features/Preferences/data/effectsData';
 import { getEmojiBitmap } from '@/features/Preferences/data/emojiBitmapCache';
+import { useHasFinePointer } from '@/shared/hooks/useHasFinePointer';
 
 // ─── Particle (flat struct, no strings at draw time) ──────────────────────────
 
@@ -22,6 +23,7 @@ interface Particle {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function CursorTrailRenderer() {
+  const hasFinePointer = useHasFinePointer();
   const effectId = usePreferencesStore(s => s.cursorTrailEffect);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particles = useRef<Particle[]>([]);
@@ -31,7 +33,7 @@ export default function CursorTrailRenderer() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (!hasFinePointer) return;
     if (effectId === 'none') return;
 
     const effectDef = CURSOR_TRAIL_EFFECTS.find(e => e.id === effectId);
@@ -151,9 +153,9 @@ export default function CursorTrailRenderer() {
       cancelAnimationFrame(rafRef.current);
       particles.current.length = 0;
     };
-  }, [effectId]);
+  }, [effectId, hasFinePointer]);
 
-  if (effectId === 'none') return null;
+  if (!hasFinePointer || effectId === 'none') return null;
 
   return (
     <canvas

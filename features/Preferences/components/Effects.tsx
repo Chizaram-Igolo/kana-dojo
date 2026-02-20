@@ -2,6 +2,7 @@
 import clsx from 'clsx';
 import usePreferencesStore from '@/features/Preferences/store/usePreferencesStore';
 import { buttonBorderStyles } from '@/shared/lib/styles';
+import { useHasFinePointer } from '@/shared/hooks/useHasFinePointer';
 import { CURSOR_TRAIL_EFFECTS, CLICK_EFFECTS } from '../data/effectsData';
 import CollapsibleSection from './CollapsibleSection';
 import { MousePointer2, Zap } from 'lucide-react';
@@ -138,6 +139,7 @@ function EffectCard({
 }
 
 const Effects = () => {
+  const hasFinePointer = useHasFinePointer();
   const cursorTrailEffect = usePreferencesStore(s => s.cursorTrailEffect);
   const setCursorTrailEffect = usePreferencesStore(s => s.setCursorTrailEffect);
   const clickEffect = usePreferencesStore(s => s.clickEffect);
@@ -145,34 +147,36 @@ const Effects = () => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <CollapsibleSection
-        title={
-          <span className='flex items-center gap-2'>
-            Cursor Trail
-            <span className='rounded-md bg-(--card-color) px-1.5 py-0.5 text-xs text-(--secondary-color)'>
-              desktop only
+      {hasFinePointer && (
+        <CollapsibleSection
+          title={
+            <span className='flex items-center gap-2'>
+              Cursor Trail
+              <span className='rounded-md bg-(--card-color) px-1.5 py-0.5 text-xs text-(--secondary-color)'>
+                desktop only
+              </span>
             </span>
-          </span>
-        }
-        icon={<MousePointer2 size={18} />}
-        level='subsubsection'
-        defaultOpen={true}
-        storageKey='prefs-effects-cursor'
-      >
-        <fieldset className='grid grid-cols-5 gap-3 p-1 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8'>
-          {CURSOR_TRAIL_EFFECTS.map(effect => (
-            <EffectCard
-              key={effect.id}
-              id={effect.id}
-              name={effect.name}
-              emoji={effect.emoji}
-              isSelected={cursorTrailEffect === effect.id}
-              onSelect={() => setCursorTrailEffect(effect.id)}
-              group='cursor-trail'
-            />
-          ))}
-        </fieldset>
-      </CollapsibleSection>
+          }
+          icon={<MousePointer2 size={18} />}
+          level='subsubsection'
+          defaultOpen={true}
+          storageKey='prefs-effects-cursor'
+        >
+          <fieldset className='grid grid-cols-5 gap-3 p-1 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8'>
+            {CURSOR_TRAIL_EFFECTS.map(effect => (
+              <EffectCard
+                key={effect.id}
+                id={effect.id}
+                name={effect.name}
+                emoji={effect.emoji}
+                isSelected={cursorTrailEffect === effect.id}
+                onSelect={() => setCursorTrailEffect(effect.id)}
+                group='cursor-trail'
+              />
+            ))}
+          </fieldset>
+        </CollapsibleSection>
+      )}
 
       <CollapsibleSection
         title='Click Effects'
